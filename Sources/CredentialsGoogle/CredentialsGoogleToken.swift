@@ -73,6 +73,10 @@ public class CredentialsGoogleToken : CredentialsPluginProtocol {
                             if let id = jsonBody["sub"].string,
                                 let name = jsonBody["name"].string {
                                 let userProfile = UserProfile(id: id, displayName: name, provider: self.name)
+                                if let email = jsonBody["email"].string {
+                                    let userEmail = UserProfile.UserProfileEmail(value : email, type : "")
+                                    userProfile.emails = [userEmail]
+                                }
                                 let newCacheElement = BaseCacheElement(profile: userProfile)
                                 #if os(Linux)
                                     let key = NSString(string: token)
